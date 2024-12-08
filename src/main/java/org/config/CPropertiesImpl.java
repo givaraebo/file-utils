@@ -142,7 +142,6 @@ public class CPropertiesImpl extends Properties implements CProperties {
         return inputDir.listFiles();
     }
 
-
     @Override
     public Map<String, List<File>> filesGroupByFileType(Enum dirTypeEnum) {
         // group by file type
