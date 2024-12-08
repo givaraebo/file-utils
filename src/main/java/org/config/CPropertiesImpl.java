@@ -20,7 +20,7 @@ public class CPropertiesImpl extends Properties implements CProperties {
     }
 
     private Class<? extends StackTraceElement> getCreatingClass() {
-        // Hole den Stacktrace des aktuellen Threads
+        // fetch the class that created this object
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
 
         // StackTrace[0] -> getStackTrace()
