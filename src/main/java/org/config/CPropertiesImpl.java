@@ -18,7 +18,6 @@ public class CPropertiesImpl extends Properties implements CProperties {
         super();
         loadProperties(configFileName);
     }
-
     public CPropertiesImpl(String configFileName) {
         super();
         if (configFileName == null || configFileName.isEmpty()) {
