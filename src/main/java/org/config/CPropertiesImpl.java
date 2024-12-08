@@ -1,5 +1,7 @@
 package org.config;
 
+import org.exceptions.InputException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -20,7 +22,7 @@ public class CPropertiesImpl extends Properties implements CProperties {
     public CPropertiesImpl(String configFileName) {
         super();
         if (configFileName == null || configFileName.isEmpty()) {
-            throw new IllegalArgumentException( "[Class name: "+getClass().getSimpleName()+"] " +"Config file name cannot be null or empty");
+            throw new IllegalArgumentException( "[Class: "+getClass().getSimpleName()+"] " +"Config file cannot be null or empty");
         }
         this.configFileName = configFileName;
         loadProperties(configFileName);
@@ -29,7 +31,7 @@ public class CPropertiesImpl extends Properties implements CProperties {
     public CPropertiesImpl(File inputDir, File outputDir) {
         super();
         if (inputDir == null || outputDir == null) {
-            throw new IllegalArgumentException( "[Class name: "+getClass().getSimpleName()+"] " +"Input and output directories cannot be null");
+            throw new IllegalArgumentException( "[Class: "+getClass().getSimpleName()+"] " +"Input and output directories cannot be null");
         }
         this.inputDir = inputDir;
         this.outputDir = outputDir;
@@ -42,16 +44,26 @@ public class CPropertiesImpl extends Properties implements CProperties {
             try {
                 inputDir = new File(super.getProperty("inputDir"));
             }catch (Exception e){
-                throw new RuntimeException("[Class name: "+getClass().getSimpleName()+"]"  +"Input directory not found in config file");
+                throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +"Input directory not found in config file",
+                        " try to add inputDir property in config file"
+                );
             }
             try {
                 outputDir = new File(super.getProperty("outputDir"));
             }
             catch (Exception e){
-                throw new RuntimeException("[Class name: "+getClass().getSimpleName()+"]"  +"Output directory not found in config file");
+                throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +"Output directory not found in config file",
+                        " try to add outputDir property in config file"
+                );
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +" Config file not found: " + configFileName,
+                    " try to create a config file with inputDir and outputDir properties in resources directory"
+                    );
+        }catch (NullPointerException e){
+            throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +" Config file in resources directory not found: " + configFileName
+                    ," try to create a config file with inputDir and outputDir properties in resources directory"
+            );
         }
     }
 
@@ -60,17 +72,17 @@ public class CPropertiesImpl extends Properties implements CProperties {
         if (!getInputDirFile().exists()){
             boolean isCreated = getInputDirFile().mkdirs();
             if (isCreated){
-                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Input directory created: " + getInputDirFile().getAbsolutePath());
+                System.err.println("[Class: "+getClass().getSimpleName()+"]"  +"Input directory created: " + getInputDirFile().getAbsolutePath());
             }else {
-                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Input directory creation failed: " + getInputDirFile().getAbsolutePath());
+                System.err.println("[Class: "+getClass().getSimpleName()+"]"  +"Input directory creation failed: " + getInputDirFile().getAbsolutePath());
             }
         }
         if (!getOutputDirFile().exists()) {
             boolean isCreated = getOutputDirFile().mkdirs();
             if (isCreated){
-                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Output directory created: " + getOutputDirFile().getAbsolutePath());
+                System.err.println("[Class: "+getClass().getSimpleName()+"]"  +"Output directory created: " + getOutputDirFile().getAbsolutePath());
             }else {
-                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Output directory creation failed: " + getOutputDirFile().getAbsolutePath());
+                System.err.println("[Class: "+getClass().getSimpleName()+"]"  +"Output directory creation failed: " + getOutputDirFile().getAbsolutePath());
             }
         }
     }
