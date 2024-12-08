@@ -149,7 +149,9 @@ public class CPropertiesImpl extends Properties implements CProperties {
         // group by file type
         Map<String, List<File>> map = new HashMap<>();
         List<File> dirFiles = List.of(dirTypeEnum == DirType.INPUT ? getInputDirFiles() : getOutputDirFiles());
+
         dirFiles = dirFiles.stream().filter(File::isFile).toList();
+
         if (!dirFiles.isEmpty()) {
             for (File file : dirFiles) {
                 String fileType = file.getName().substring(file.getName().lastIndexOf(".")).substring(1);
