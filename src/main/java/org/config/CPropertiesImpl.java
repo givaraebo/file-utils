@@ -14,19 +14,9 @@ public class CPropertiesImpl extends Properties implements CProperties {
     private File outputDir;
     private String configFileName = "config.properties";
 
-    public CPropertiesImpl() {
+    public CPropertiesImpl(Class<?> clazz) {
         super();
         loadProperties(configFileName);
-    }
-
-    private Class<? extends StackTraceElement> getCreatingClass() {
-        // fetch the class that created this object
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-
-        // StackTrace[0] -> getStackTrace()
-        // StackTrace[1] -> getCreatingClassName()
-        // StackTrace[2] -> Methode, die dieses Objekt erstellt hat
-        return stackTrace[3].getClass();
     }
 
     public CPropertiesImpl(String configFileName) {
@@ -50,7 +40,7 @@ public class CPropertiesImpl extends Properties implements CProperties {
     @Override
     public void loadProperties(String configFileName) {
         try {
-            super.load(getCreatingClass().getClassLoader().getResourceAsStream(configFileName));
+            super.load(getClass().getClassLoader().getResourceAsStream(configFileName));
             try {
                 inputDir = new File(super.getProperty("inputDir"));
             }catch (Exception e){

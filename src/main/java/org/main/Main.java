@@ -8,7 +8,7 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        CProperties properties = new CPropertiesImpl();
+        CProperties properties = new CPropertiesImpl(Main.class);
         properties.loadProperties("config.properties");
         System.out.println(properties.getInputDir());
         System.out.println(properties.getOutputDir());

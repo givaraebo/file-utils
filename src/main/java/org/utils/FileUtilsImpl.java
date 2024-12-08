@@ -4,7 +4,7 @@ import org.config.CProperties;
 import org.config.CPropertiesImpl;
 
 public class FileUtilsImpl implements FileUtils {
-    private CProperties properties = new CPropertiesImpl();
+    private CProperties properties = new CPropertiesImpl(getClass());
 
     public FileUtilsImpl() {
         // default constructor
