@@ -8,8 +8,7 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        CProperties properties = new CPropertiesImpl(Main.class);
-        properties.loadProperties("config.properties");
+        CProperties properties = new CPropertiesImpl();
         System.out.println(properties.getInputDir());
         System.out.println(properties.getOutputDir());
         System.out.println(properties.filesGroupByFileType(DirType.INPUT));
