@@ -12,19 +12,19 @@ import java.util.*;
 public class CPropertiesImpl extends Properties implements CProperties {
     private File inputDir;
     private File outputDir;
-    private String configFileName = "config.properties";
+    private String configFilePath = "src/main/resources/config.properties";
 
-    public CPropertiesImpl(Class<?> clazz) {
+    public CPropertiesImpl() {
         super();
-        loadProperties(configFileName);
+        loadProperties(configFilePath);
     }
-    public CPropertiesImpl(String configFileName) {
+    public CPropertiesImpl(String configFilePath) {
         super();
-        if (configFileName == null || configFileName.isEmpty()) {
+        if (configFilePath == null || configFilePath.isEmpty()) {
             throw new IllegalArgumentException( "[Class: "+getClass().getSimpleName()+"] " +"Config file cannot be null or empty");
         }
-        this.configFileName = configFileName;
-        loadProperties(configFileName);
+        this.configFilePath = configFilePath;
+        loadProperties(configFilePath);
     }
 
     public CPropertiesImpl(File inputDir, File outputDir) {
@@ -37,9 +37,9 @@ public class CPropertiesImpl extends Properties implements CProperties {
     }
 
     @Override
-    public void loadProperties(String configFileName) {
+    public void loadProperties(String configFilePath) {
         try {
-            super.load(getClass().getClassLoader().getResourceAsStream(configFileName));
+            super.load(new File(configFilePath).toURI().toURL().openStream());
             try {
                 inputDir = new File(super.getProperty("inputDir"));
             }catch (Exception e){
@@ -56,11 +56,11 @@ public class CPropertiesImpl extends Properties implements CProperties {
                 );
             }
         } catch (IOException e) {
-            throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +" Config file not found: " + configFileName,
+            throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +" Config file not found: " + configFilePath,
                     " try to create a config file with inputDir and outputDir properties in resources directory"
                     );
         }catch (NullPointerException e){
-            throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +" Config file in resources directory not found: " + configFileName
+            throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +" Config file in resources directory not found: " + configFilePath
                     ," try to create a config file with inputDir and outputDir properties in resources directory"
             );
         }
