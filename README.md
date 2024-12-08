@@ -20,3 +20,16 @@ file utils
     <version>main-SNAPSHOT</version>
 </dependency>
 ```
+
+
+```java
+CProperties properties = new CPropertiesImpl();
+/**
+ * get input directory
+ */
+System.out.println(properties.getInputDir());
+System.out.println(properties.getOutputDir());
+System.out.println(properties.filesGroupByFileType(DirType.INPUT));
+System.out.println(properties.getDirectories(DirType.INPUT));
+
+```
