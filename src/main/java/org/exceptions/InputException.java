@@ -2,9 +2,9 @@ package org.exceptions;
 
 import org.console.utils.Color;
 
-public class InputException extends RuntimeException {
+public class InputException extends OperationException {
     public InputException(String message, String recommendation) {
-        super("\n"+message + "\n" +Color.CYAN.getCode()+"[Recommendation]" + recommendation +"" + Color.CYAN.getCode()+"\n"+Color.RESET.getCode());
+        super("\n"+message + "\n" + Color.CYAN.getCode()+"[Recommendation]" + recommendation +"" + Color.CYAN.getCode()+"\n"+Color.RESET.getCode());
     }
 
     public InputException(String message, Throwable cause) {
@@ -14,4 +14,5 @@ public class InputException extends RuntimeException {
     public InputException(Throwable cause) {
         super(cause);
     }
+
 }
