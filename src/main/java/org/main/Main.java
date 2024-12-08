@@ -13,7 +13,5 @@ public class Main {
         System.out.println(properties.getOutputDir());
         System.out.println(properties.filesGroupByFileType(DirType.INPUT));
         System.out.println(properties.getDirectories(DirType.INPUT));
-        File input = properties.filesGroupByFileType(DirType.INPUT).get("txt").get(0);
-        System.out.println(input);
     }
 }
