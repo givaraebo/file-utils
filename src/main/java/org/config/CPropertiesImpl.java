@@ -18,7 +18,6 @@ public class CPropertiesImpl extends Properties implements CProperties {
         super();
         loadProperties(configFilePath);
     }
-
     public CPropertiesImpl(String configFilePath) {
         super();
         if (configFilePath == null || configFilePath.isEmpty()) {
@@ -150,20 +149,27 @@ public class CPropertiesImpl extends Properties implements CProperties {
         Map<String, List<File>> map = new HashMap<>();
         List<File> dirFiles = List.of(dirTypeEnum == DirType.INPUT ? getInputDirFiles() : getOutputDirFiles());
         dirFiles = dirFiles.stream().filter(File::isFile).toList();
-        if (!dirFiles.isEmpty()) {
-            for (File file : dirFiles) {
-                String fileType = file.getName().substring(file.getName().lastIndexOf(".")).substring(1);
-                if (map.containsKey(fileType)) {
-                    List<File> files = map.get(fileType);
-                    files.add(file);
-                    map.put(fileType, files);
-                } else {
-                    List<File> files = new ArrayList<>();
-                    files.add(file);
-                    map.put(fileType, files);
+        try {
+            if (!dirFiles.isEmpty()) {
+                for (File file : dirFiles) {
+                    String fileType = file.getName().substring(file.getName().lastIndexOf(".")).substring(1);
+                    if (map.containsKey(fileType)) {
+                        List<File> files = map.get(fileType);
+                        files.add(file);
+                        map.put(fileType, files);
+                    } else {
+                        List<File> files = new ArrayList<>();
+                        files.add(file);
+                        map.put(fileType, files);
+                    }
                 }
             }
+        }catch (NullPointerException e) {
+            throw new InputException("[Class: " + getClass().getSimpleName() + "]" + " No files found in directory: " + dirFiles.get(0).getParentFile().getAbsolutePath(),
+                    " try to add files in the directory, change the directory, create directory or check the directory path in config file"
+            );
         }
+
         return map;
     }
 
