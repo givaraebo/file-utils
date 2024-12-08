@@ -34,6 +34,8 @@ public interface CProperties {
     String getOutputDir();
 
 
+    String getOutputDir(String extension);
+
     /**
      * Get the input directory
      * @return

@@ -111,6 +111,20 @@ public class CPropertiesImpl extends Properties implements CProperties {
     public String getOutputDir() {
         return outputDir.getAbsolutePath().endsWith("/") ? outputDir.getAbsolutePath() : outputDir.getAbsolutePath() + "/";
     }
+    @Override
+    public String getOutputDir(String extension) {
+        String path = outputDir.getAbsolutePath().endsWith("/") ? outputDir.getAbsolutePath() : outputDir.getAbsolutePath() + "/";
+        File file = new File(path+ extension);
+        if (!file.exists()){
+            boolean isCreated = file.mkdirs();
+            if (isCreated){
+                System.err.println("[Class: "+getClass().getSimpleName()+"]"  +"Output directory created: " + file.getAbsolutePath());
+            }else {
+                System.err.println("[Class: "+getClass().getSimpleName()+"]"  +"Output directory creation failed: " + file.getAbsolutePath());
+            }
+        }
+        return file.getAbsolutePath().endsWith("/") ? file.getAbsolutePath() : file.getAbsolutePath() + "/";
+    }
 
     @Override
     public String getInputDir() {
