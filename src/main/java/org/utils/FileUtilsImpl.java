@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 public class FileUtilsImpl implements FileUtils {
-    private CProperties properties = new CPropertiesImpl();
+    private final CProperties properties = new CPropertiesImpl();
 
     public FileUtilsImpl() {
         // default constructor
@@ -24,7 +24,7 @@ public class FileUtilsImpl implements FileUtils {
             return true;
         } catch (java.io.IOException e) {
             throw new OperationException("[Class: " + getClass().getSimpleName() + "] " + "Error writing to file: " + fileName,
-                    " try to check if the file is not in use or the path is correct"
+                    " try to check if the file exists, is not in use or the path is correct"
             );
         }
     }

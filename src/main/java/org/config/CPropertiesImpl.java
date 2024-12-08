@@ -17,6 +17,7 @@ public class CPropertiesImpl extends Properties implements CProperties {
     public CPropertiesImpl() {
         super();
         loadProperties(configFilePath);
+
     }
     public CPropertiesImpl(String configFilePath) {
         super();
@@ -25,6 +26,8 @@ public class CPropertiesImpl extends Properties implements CProperties {
         }
         this.configFilePath = configFilePath;
         loadProperties(configFilePath);
+
+
     }
 
     public CPropertiesImpl(File inputDir, File outputDir) {
@@ -34,6 +37,8 @@ public class CPropertiesImpl extends Properties implements CProperties {
         }
         this.inputDir = inputDir;
         this.outputDir = outputDir;
+        createDirs();
+
     }
 
     @Override
@@ -41,14 +46,14 @@ public class CPropertiesImpl extends Properties implements CProperties {
         try {
             super.load(new File(configFilePath).toURI().toURL().openStream());
             try {
-                inputDir = new File(super.getProperty("inputDir"));
+                inputDir = new File(super.getProperty("inputDir").endsWith("/") ? super.getProperty("inputDir") : super.getProperty("inputDir") + "/");
             }catch (Exception e){
                 throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +"Input directory not found in config file",
                         " try to add inputDir property in config file"
                 );
             }
             try {
-                outputDir = new File(super.getProperty("outputDir"));
+                outputDir = new File(super.getProperty("outputDir").endsWith("/") ? super.getProperty("outputDir") : super.getProperty("outputDir") + "/");
             }
             catch (Exception e){
                 throw new InputException("[Class: "+getClass().getSimpleName()+"]"  +"Output directory not found in config file",
@@ -64,6 +69,7 @@ public class CPropertiesImpl extends Properties implements CProperties {
                     ," try to create a config file with inputDir and outputDir properties in resources directory"
             );
         }
+        createDirs();
     }
 
 
@@ -103,12 +109,12 @@ public class CPropertiesImpl extends Properties implements CProperties {
 
     @Override
     public String getOutputDir() {
-        return outputDir.getAbsolutePath();
+        return outputDir.getAbsolutePath().endsWith("/") ? outputDir.getAbsolutePath() : outputDir.getAbsolutePath() + "/";
     }
 
     @Override
     public String getInputDir() {
-        return inputDir.getAbsolutePath();
+        return inputDir.getAbsolutePath().endsWith("/") ? inputDir.getAbsolutePath() : inputDir.getAbsolutePath() + "/";
     }
 
     @Override
@@ -146,7 +152,6 @@ public class CPropertiesImpl extends Properties implements CProperties {
     public Map<String, List<File>> filesGroupByFileType(Enum dirTypeEnum) {
         // group by file type
         Map<String, List<File>> map = new HashMap<>();
-        createDirs();
         List<File> dirFiles = List.of(dirTypeEnum == DirType.INPUT ? getInputDirFiles() : getOutputDirFiles());
         dirFiles = dirFiles.stream().filter(File::isFile).toList();
         try {
