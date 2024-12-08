@@ -9,10 +9,8 @@ import java.io.FileWriter;
 
 public class FileUtilsImpl implements FileUtils {
     private final CProperties properties = new CPropertiesImpl();
-
     public FileUtilsImpl() {
         // default constructor
-
     }
 
     @Override
@@ -47,5 +45,23 @@ public class FileUtilsImpl implements FileUtils {
             );
         }
 
+    }
+
+    @Override
+    public CProperties getProperties() {
+        return properties;
+    }
+
+    @Override
+    public boolean setProperties(String inputDir, String outputDir) {
+        try {
+            properties.setInputDir(new File(inputDir));
+            properties.setOutputDir(new File(outputDir));
+            return true;
+        } catch (Exception e) {
+            throw new OperationException("[Class: " + getClass().getSimpleName() + "] " + "Error setting properties",
+                    " try to check if the directories exist or the paths are correct"
+            );
+        }
     }
 }
