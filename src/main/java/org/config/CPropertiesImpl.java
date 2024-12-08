@@ -39,10 +39,39 @@ public class CPropertiesImpl extends Properties implements CProperties {
     public void loadProperties(String configFileName) {
         try {
             super.load(getClass().getClassLoader().getResourceAsStream(configFileName));
-            inputDir = new File(super.getProperty("inputDir"));
-            outputDir = new File(super.getProperty("outputDir"));
+            try {
+                inputDir = new File(super.getProperty("inputDir"));
+            }catch (Exception e){
+                throw new RuntimeException("[Class name: "+getClass().getSimpleName()+"]"  +"Input directory not found in config file");
+            }
+            try {
+                outputDir = new File(super.getProperty("outputDir"));
+            }
+            catch (Exception e){
+                throw new RuntimeException("[Class name: "+getClass().getSimpleName()+"]"  +"Output directory not found in config file");
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+
+    private void createDirs() {
+        if (!getInputDirFile().exists()){
+            boolean isCreated = getInputDirFile().mkdirs();
+            if (isCreated){
+                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Input directory created: " + getInputDirFile().getAbsolutePath());
+            }else {
+                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Input directory creation failed: " + getInputDirFile().getAbsolutePath());
+            }
+        }
+        if (!getOutputDirFile().exists()) {
+            boolean isCreated = getOutputDirFile().mkdirs();
+            if (isCreated){
+                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Output directory created: " + getOutputDirFile().getAbsolutePath());
+            }else {
+                System.err.println("[Class name: "+getClass().getSimpleName()+"]"  +"Output directory creation failed: " + getOutputDirFile().getAbsolutePath());
+            }
         }
     }
 
