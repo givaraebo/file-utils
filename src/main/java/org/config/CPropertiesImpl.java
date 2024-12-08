@@ -150,19 +150,18 @@ public class CPropertiesImpl extends Properties implements CProperties {
         Map<String, List<File>> map = new HashMap<>();
         List<File> dirFiles = List.of(dirTypeEnum == DirType.INPUT ? getInputDirFiles() : getOutputDirFiles());
         dirFiles = dirFiles.stream().filter(File::isFile).toList();
-        if (dirFiles.isEmpty()) {
-            return map;
-        }
-        for (File file : dirFiles) {
-            String fileType = file.getName().substring(file.getName().lastIndexOf(".")).substring(1);
-            if (map.containsKey(fileType)) {
-                List<File> files = map.get(fileType);
-                files.add(file);
-                map.put(fileType, files);
-            } else {
-                List<File> files = new ArrayList<>();
-                files.add(file);
-                map.put(fileType, files);
+        if (!dirFiles.isEmpty()) {
+            for (File file : dirFiles) {
+                String fileType = file.getName().substring(file.getName().lastIndexOf(".")).substring(1);
+                if (map.containsKey(fileType)) {
+                    List<File> files = map.get(fileType);
+                    files.add(file);
+                    map.put(fileType, files);
+                } else {
+                    List<File> files = new ArrayList<>();
+                    files.add(file);
+                    map.put(fileType, files);
+                }
             }
         }
         return map;

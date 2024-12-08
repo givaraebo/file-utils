@@ -3,7 +3,7 @@ file utils
 
 ## JetPack
 - https://jitpack.io/
-- https://jitpack.io/#givaraebo/file-utils/3a0b8b4509
+- https://jitpack.io/#givaraebo/file-utils/main-SNAPSHOT
 ```xml
 <repositories>
     <repository>
@@ -17,6 +17,6 @@ file utils
 <dependency>
     <groupId>com.github.givaraebo</groupId>
     <artifactId>file-utils</artifactId>
-    <version>3a0b8b4509</version>
+    <version>main-SNAPSHOT</version>
 </dependency>
 ```
